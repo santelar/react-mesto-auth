@@ -57,7 +57,7 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-        //infoToolFail();
+        //infoToolFail();//
       })
   }
   function onLogin(mail, password) {
@@ -71,7 +71,7 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-        //infoToolFail();
+        //infoToolFail();//
       })
   }
   const tokenCheck = React.useCallback(() => {
