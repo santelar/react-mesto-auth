@@ -4,7 +4,7 @@ import buttonPlus from '../images/add-button__plus.svg';
 function ImagePopup({ card, onClose }) {
 
   return (
-    <div className={`popup popup__image" ${card && 'popup_opened'}`}>
+    <div className={`popup popup__image" ${card.isOpen ? "popup_opened" : ""}`}>
       <div className="popup__image-button">
         <button type="button" className="button" onClick={onClose}><img src={buttonPlus} 
           alt="Закрыть" className="popup__close popup__close_image" /></button>

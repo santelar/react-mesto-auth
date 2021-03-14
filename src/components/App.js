@@ -22,7 +22,7 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
-  const [selectedCard, setSelectedCard] = useState(null);
+  const [selectedCard, setSelectedCard] = useState({isOpen: false, link: "", name: ""});
   const [currentUser, setCurrentUser] = useState(' ');
   const [cards, setCards] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
@@ -35,7 +35,7 @@ function App() {
   const history = useHistory();
 
   ///////////////////////////////////////////////////////////
-  ///// Регистрацич / авторизация / выход ///////////////////
+  ///// Регистрация / авторизация / выход ///////////////////
   ///////////////////////////////////////////////////////////
 
   const handleRegister = (data) => {
@@ -261,9 +261,6 @@ function App() {
           </Route>
           <Route path="/sign-up">
             <Register handleRegister={handleRegister} openInfoTooltip={openInfoTooltip} />
-          </Route>
-          <Route>
-            {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
           </Route>
         </Switch>
 

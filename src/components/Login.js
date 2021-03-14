@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Header from './Header';
 
-function Login({ handleLogin }) {
+function Login({ handleLogin, openInfoTooltip }) {
 
   const [data, setData] = React.useState({ email: '', password: '' });
 
@@ -26,7 +26,7 @@ function Login({ handleLogin }) {
             className="account__input account__input_register" id="email" required minLength="2" maxLength="40" />
           <input value={data.password} onChange={handleChangeData} placeholder="Пароль" type="text" name="password"
             className="account__input account__input_password" id="password" required minLength="2" maxLength="200" />
-          <button type="submit" className="account__submit">Войти</button>
+          <button type="submit" className="account__submit" onClick={openInfoTooltip}>Войти</button>
           <Link to="/sign-up" className="account__switch-text" >Не зарегистрированы? Регистрация</Link>
         </form>
       </section>
