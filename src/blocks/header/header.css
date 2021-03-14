@@ -1,21 +1,14 @@
 .header {
-  margin: 0 auto;
   max-width: 882px;
-  height: 119px;
+  margin: 45px auto 40px;
+  height: 74px;
+  border-bottom: 1px solid #545454;
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid rgb(84, 84, 84, 0.7);
 }
 
-@media screen and (max-width: 940px) {
+@media screen and (max-width: 320px) {
   .header {
-  max-width: 582px;
-  }
-}
-
-@media screen and (max-width: 620px) {
-  .header {
-  max-width: 320px;
-  height: 84px;
+    margin: 28px auto 42px;
   }
 }
