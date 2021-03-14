@@ -22,7 +22,7 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
-  const [selectedCard, setSelectedCard] = useState({isOpen: false, link: "", name: ""});
+  const [selectedCard, setSelectedCard] = useState({ isOpen: false, link: "", name: "" });
   const [currentUser, setCurrentUser] = useState(' ');
   const [cards, setCards] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
@@ -42,42 +42,34 @@ function App() {
     const { email, password } = data;
     return register(email, password)
       .then((res) => {
-        if (!res || res.statusCode === 400) {
-          throw new Error('Ошибка при регистрации');
-        }
-        if (res.data) {
-          setIsAuthSuccess(true);
-        }
+        setIsAuthSuccess(true);
       })
-      .catch((err) => console.log(`Ошибка: ${err}`))
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+        setIsInfoTooltipOpen(true);
+        //openInfoTooltip();
+      })
   }
 
   const handleLogin = (data) => {
     const { email, password } = data;
     return login(email, password)
       .then((res) => {
-        if (!res || res.statusCode === 401) {
-          setIsInfoTooltipOpen(true)
-          throw new Error('Такой пользователь не зарегестрирован');
-        }
-        if (!res || res.statusCode === 400) {
-          setIsInfoTooltipOpen(true)
-          throw new Error('Неверные данные пользователя');
-        }
-        if (res.token) {
-          setLoggedIn(true);
-          setIsAuthSuccess(true);
-          history.push('/')
-          localStorage.setItem('jwt', res.token);
-          getContent(res.token)
-            .then((res) => {
-              if (res) {
-                setLoginData(res.data);
-              }
-            });
-        }
+        setLoggedIn(true);
+        setIsAuthSuccess(true);
+        history.push('/')
+        localStorage.setItem('jwt', res.token);
+        getContent(res.token)
+          .then((res) => {
+            if (res) {
+              setLoginData(res.data);
+            }
+          });
       })
-      .catch((err) => console.log(`Ошибка: ${err}`))
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+        setIsInfoTooltipOpen(true);
+      })
   }
 
   useEffect(() => {
@@ -85,21 +77,22 @@ function App() {
     if (jwt) {
       getContent(jwt)
         .then((res) => {
-          if (res) {
             setLoggedIn(true);
             setLoginData(res.data);
-          }
         })
-        .catch((err) => console.log(`Ошибка: ${err}`))
+        .catch((err) => {
+          console.log(`Ошибка: ${err}`);
+          setIsInfoTooltipOpen(true);
+        })
     }
   }, []);
-  
+
   const handleSignOut = () => {
     localStorage.removeItem('jwt');
     setIsAuthSuccess(false);
   }
 
-   /////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////
   ////////  Хендлеры переключения стейтов /////////////
   /////////////////////////////////////////////////////
   // Функция для состояния попапа //
@@ -130,7 +123,7 @@ function App() {
   function closeInfoTooltip() {
     setIsInfoTooltipOpen(false);
     if (isAuthSuccess) {
-      history.push('/sing-in');
+      history.push('/sign-in');
     }
   }
 
@@ -176,7 +169,7 @@ function App() {
     }
   }, [history, loggedIn])
 
-   // Лайки карточки - проверка id, вызов api запроса //
+  // Лайки карточки - проверка id, вызов api запроса //
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
     api.changeLikeCardStatus(card._id, !isLiked)
@@ -257,10 +250,10 @@ function App() {
             loginData={loginData.email}
           />
           <Route path="/sign-in">
-            <Login handleLogin={handleLogin} openInfoTooltip={openInfoTooltip} />
+            <Login handleLogin={handleLogin} />
           </Route>
           <Route path="/sign-up">
-            <Register handleRegister={handleRegister} openInfoTooltip={openInfoTooltip} />
+            <Register handleRegister={handleRegister} />
           </Route>
         </Switch>
 
@@ -302,6 +295,8 @@ function App() {
           isOpen={isInfoTooltipOpen}
           onClose={closeInfoTooltip}
           isAuthSuccess={isAuthSuccess}
+          goodRegister="Вы успешно зарегестрировались!"
+          badRegister="Что-то пошло не так! Попробуйте ещё раз."
         />
       </div>
     </CurrentUserContext.Provider>
