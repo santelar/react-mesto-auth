@@ -1,18 +1,37 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
+import Header from './Header';
 
-function Login() {
+function Login({ handleLogin }) {
+
+  const [data, setData] = React.useState({ email: '', password: '' });
+
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    handleLogin(data)
+  }
+
+  function handleChangeData(evt) {
+    const { name, value } = evt.target
+    setData({ ...data, [name]: value });
+  }
+
   return (
-    <section className="login">
-        <h2 className="login__title">Вход</h2>
-        <form className="login__form">
-            <input className="login__input" type="email" name="email" id="email" required placeholder="Email"/>
-            <input className="login__input" type="password" name="password" id="password" required placeholder="Пароль"/> 
-            <button className="login__submit" type="submit">Войти</button>
+    <>
+      <Header loginText={'Регистрация'} link="/sign-up" />
+      <section className="account">
+        <form onSubmit={handleSubmit} className="account__container account__container_register">
+          <h3 className="account__title">Вход</h3>
+          <input value={data.email} onChange={handleChangeData} placeholder="Email" type="email" name="email"
+            className="account__input account__input_register" id="email" required minLength="2" maxLength="40" />
+          <input value={data.password} onChange={handleChangeData} placeholder="Пароль" type="text" name="password"
+            className="account__input account__input_password" id="password" required minLength="2" maxLength="200" />
+          <button type="submit" className="account__submit">Войти</button>
+          <Link to="/sign-up" className="account__switch-text" >Не зарегистрированы? Регистрация</Link>
         </form>
-        <Link to="/sign-up" className="login__link">Еще не зарегистрированы? Регистрация</Link>
-    </section>
-  );
+      </section>
+    </ >
+  )
 }
 
-export default Login;
+export default Login

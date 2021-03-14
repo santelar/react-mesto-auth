@@ -22,7 +22,9 @@ function Card({
   }
 
   function handleDeleteClick() {
-    onCardDelete(card);
+    if (isOwn) {
+      onCardDelete(card);
+    }
   }
 
   //Класс кнопки удаления карточки в зависимости от того наша или нет//

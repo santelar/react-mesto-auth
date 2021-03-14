@@ -1,42 +1,36 @@
-import React from 'react';
-import { Link, useHistory } from 'react-router-dom'; 
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import Header from './Header';
 
-function Register(props) {
+function Register({ handleRegister, openInfoTooltip }) {
+  const [data, setData] = useState({ email: '', password: '' });
 
-  const [inputEmail, setInputEmail] = React.useState('');
-  const [inputPassword, setInputPassword] = React.useState('');
-  const history = useHistory();
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    props.handleRegister(inputEmail, inputPassword)
-    setInputEmail('');
-    setInputPassword('');
+  function handleChangeData(evt) {
+    const { name, value } = evt.target
+    setData({ ...data, [name]: value });
   }
 
-  function handleChangeEmail(e) {
-    setInputEmail(e.target.value);
-  }
-
-  function handleChangePassword(e) {
-    setInputPassword(e.target.value)
-  }
-
-  function handleClick(e) {
-    history.push('/sign-in');
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    handleRegister(data)
   }
 
   return (
-    <section className="register">
-        <h2 className="register__title">Регистрация</h2>
-        <form className="register__form" onSubmit={handleSubmit} name="form-element">
-            <input className="register__input" type="email" name="email" id="email" required placeholder="Email" value={inputEmail} onChange={handleChangeEmail} />
-            <input className="register__input" type="password" name="password" id="password" required placeholder="Пароль" value={inputPassword} onChange={handleChangePassword} /> 
-            <button className="register__submit" type="submit">Зарегистрироваться</button>
+    <>
+      <Header loginText={'Войти'} link="/sign-in" />
+      <section className="account">
+        <form onSubmit={handleSubmit} className="account__container account__containe_register">
+          <h3 className="account__title">Регистрация</h3>
+          <input value={data.email} onChange={handleChangeData} placeholder="Email" type="email" name="email"
+              className="account__input account__input_register" id="email" required minLength="2" maxLength="40" />
+          <input value={data.password} onChange={handleChangeData} placeholder="Пароль" type="text" name="password"
+            className="account__input accountform__input_password" id="password" required minLength="2" maxLength="200" />
+          <button type="submit" className="account__submit" onClick={openInfoTooltip}>Зарегистрироваться</button>
+          <Link to="/sign-in" className="account__switch-text" >Уже зарегистрированы? Войти</Link>
         </form>
-        <Link to="/sign-in" className="register__link" onClick={handleClick}>Уже зарегистрированы? Войти</Link>
-    </section>
-  );
+      </section>
+    </ >
+  )
 }
 
-export default Register;
+export default Register

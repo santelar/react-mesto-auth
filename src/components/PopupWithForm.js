@@ -4,7 +4,7 @@ import buttonPlus from '../images/add-button__plus.svg';
 function PopupWithForm(props) {
 
   return (
-    <div className={`popup popup__${props.name} ${props.isOpen && 'popup_opened'}`}>
+    <div className={`popup popup__${props.name} ${props.isOpen && 'popup_opened'}`} onClick={props.onClickOverlay}>
       <div className="popup__container">
         <button type="button" onClick={props.onClose} className="button"><img src={buttonPlus} alt="Закрыть"
           className={`popup__close popup__close_${props.name}`} /></button>

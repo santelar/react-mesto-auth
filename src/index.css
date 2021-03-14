@@ -50,6 +50,7 @@
 
 @import url('./blocks/popup/popup.css');
 @import url('./blocks/popup/__container/popup__container.css');
+@import url('./blocks/popup/__container/popup__container_login.css');
 @import url('./blocks/popup/__form/popup__form.css');
 @import url('./blocks/popup/__close/popup__close.css');
 @import url('./blocks/popup/__close/popup__close_image.css');
@@ -62,6 +63,15 @@
 @import url('./blocks/popup/__image-button/popup__image-button.css');
 @import url('./blocks/popup/__image-place/popup__image-place.css');
 @import url('./blocks/popup/__image-name/popup__image-name.css');
+@import url('./blocks/popup/__image-login/popup__image-login.css');
 @import url('./blocks/popup/__save/popup__save.css');
 @import url('./blocks/popup/__save/popup__save_invalid.css');
+@import url('./blocks/popup/__text-login/popup__text-login.css');
 @import url('./blocks/popup/_opened/popup_opened.css');
+
+@import url('./blocks/account/account.css');
+@import url('./blocks/account/__container/account__container.css');
+@import url('./blocks/account/__title/account__title.css');
+@import url('./blocks/account/__input/account__input.css');
+@import url('./blocks/account/__submit/account__submit.css');
+@import url('./blocks/account/__switch-text/account__switch-text');
