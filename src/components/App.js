@@ -41,13 +41,15 @@ function App() {
   const handleRegister = (data) => {
     const { email, password } = data;
     return register(email, password)
-      .then((res) => {
-        setIsAuthSuccess(true);
-      })
+      .then((res) => { 
+        if (res.data) { 
+          openInfoTooltip();
+        } 
+      }) 
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
-        setIsInfoTooltipOpen(true);
-        //openInfoTooltip();
+        openInfoTooltip();
+        history.push('/sign-up');
       })
   }
 
@@ -61,9 +63,7 @@ function App() {
         localStorage.setItem('jwt', res.token);
         getContent(res.token)
           .then((res) => {
-            if (res) {
-              setLoginData(res.data);
-            }
+            setLoginData(res.data);
           });
       })
       .catch((err) => {
@@ -263,11 +263,13 @@ function App() {
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
+          onClickOverlay={handleClickOverlay}
         />
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
+          onClickOverlay={handleClickOverlay}
         />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
@@ -290,6 +292,7 @@ function App() {
         <ImagePopup
           card={selectedCard}
           onClose={closeAllPopups}
+          onClickOverlay={handleClickOverlay}
         />
         <InfoTooltip
           isOpen={isInfoTooltipOpen}
