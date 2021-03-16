@@ -41,13 +41,15 @@ function App() {
   const handleRegister = (data) => {
     const { email, password } = data;
     return register(email, password)
-      .then((res) => { 
-        if (res.data) { 
+      .then((res) => {
+        if (res.data) {
+          setIsAuthSuccess(true);
           openInfoTooltip();
-        } 
-      }) 
+        }
+      })
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
+        setIsAuthSuccess(false);
         openInfoTooltip();
         history.push('/sign-up');
       })
@@ -57,14 +59,12 @@ function App() {
     const { email, password } = data;
     return login(email, password)
       .then((res) => {
-        setLoggedIn(true);
-        setIsAuthSuccess(true);
-        history.push('/')
-        localStorage.setItem('jwt', res.token);
-        getContent(res.token)
-          .then((res) => {
-            setLoginData(res.data);
-          });
+        if (res.token) {
+          setLoggedIn(true);
+          setIsAuthSuccess(true);
+          history.push('/')
+          localStorage.setItem('jwt', res.token);
+        }
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
@@ -77,8 +77,9 @@ function App() {
     if (jwt) {
       getContent(jwt)
         .then((res) => {
-            setLoggedIn(true);
-            setLoginData(res.data);
+          setLoggedIn(true);
+          setLoginData(res.data);
+
         })
         .catch((err) => {
           console.log(`Ошибка: ${err}`);
